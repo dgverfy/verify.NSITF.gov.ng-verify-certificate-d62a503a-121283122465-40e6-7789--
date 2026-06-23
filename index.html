@@ -1,32 +1,373 @@
-
-
-
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <title>CCSP</title>
-  <link rel="stylesheet" href="https://federalcontractors.bpp.gov.ng/api-server/assets/report_template/2020IRR.css"></link>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Verification Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* BASE STYLES (Desktop-First) */
+
+        /* Basic Reset and Font */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        /* --- Header Styling --- */
+        .main-header {
+            background: linear-gradient(to right, #00d28d, #00d2b0, #00c7b9, #00b9d0, #00a4e0);
+            /* UPDATED: Increased top padding to 20px for more space */
+            padding: 20px 100px 10px;
+            color: white;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            padding-bottom: 20px;
+        }
+
+        /* UPDATED .logo-circle CSS */
+        .logo-circle {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: transparent;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 8px;
+            overflow: hidden;
+        }
+
+        /* NEW: Styles for the image inside the circle */
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .company-name {
+            font-size: 18px;
+            font-weight: 400;
+            color: white;
+        }
+
+        /* --- Content Header (Write-ups) Styling --- */
+        .content-header {
+            padding: 20px 100px 30px;
+            background-color: #f8f8f8;
+        }
+
+        .red-placeholder {
+            color: #333;
+            font-size: 13px;
+            line-height: 1.2;
+            margin-bottom: 5px;
+        }
+
+        .main-title {
+            font-size: 28px;
+            font-weight: 200;
+            color: lightgreen;
+            margin: 0;
+        }
+
+        /* --- Main Content Layout (Desktop) --- */
+        .content-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 150px;
+            padding: 0 100px;
+            margin-top: 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        /* General Card Styling */
+        .user-details-card,
+        .search-card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            flex-grow: 0;
+            margin-bottom: 30px;
+        }
+
+        /* User Details Card Specifics */
+        .user-details-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* Two columns for desktop details */
+            gap: 30px 50px;
+            padding: 40px 30px;
+            width: 450px;
+        }
+
+        .detail-row {
+            line-height: 1.4;
+            padding: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 3px;
+        }
+
+        /* Ensure label/value stay stacked within their cell on desktop */
+        .detail-row span {
+            display: block;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #555;
+            text-transform: capitalize;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: 400;
+            color: #333;
+        }
+
+        /* Search Card Specifics */
+        .search-card {
+            width: 350px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin: 0 0 5px 0;
+        }
+
+        .search-card p {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .certificate-input {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .certificate-input::placeholder {
+            color: #aaa;
+        }
+
+        .verify-button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            background: linear-gradient(to right, #00d28d, #00c7b9);
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            align-self: flex-end;
+            width: 140px;
+            transition: opacity 0.3s;
+        }
+
+        .verify-button:hover {
+            opacity: 0.9;
+        }
+
+        /* --- Footer Styling --- */
+        .main-footer {
+            width: 100%;
+            background-color: white;
+            border-top: 1px solid #eee;
+            color: #555;
+            padding: 8px 100px;
+            font-size: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-footer p {
+            margin: 0;
+        }
+
+        .main-footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 5px;
+            font-size: 10px;
+        }
+
+        .main-footer span {
+            color: #aaa;
+        }
+
+
+        /* ======================================= */
+        /* MOBILE RESPONSIVENESS (Max Width 768px) */
+        /* ======================================= */
+        @media (max-width: 768px) {
+
+            /* Reduce padding on major sections for mobile screens */
+            .main-header,
+            .content-header,
+            .content-container,
+            .main-footer {
+                padding-left: 20px;
+                padding-right: 20px;
+                gap: 20px;
+            }
+
+            /* Adjust header top padding for mobile as well */
+            .main-header {
+                padding-top: 15px;
+                /* Slightly less on mobile */
+            }
+
+
+            /* Main Content: Stack the cards vertically */
+            .content-container {
+                flex-direction: column;
+            }
+
+            /* Remove fixed widths and let cards fill mobile screen */
+            .user-details-card,
+            .search-card {
+                width: auto;
+                max-width: 100%;
+            }
+
+            /* User Details Card: Switch to a single column layout */
+            .user-details-card {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            /* Search Card: Use row layout for input and button on mobile */
+            .input-group {
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .certificate-input {
+                flex-grow: 1;
+                margin-bottom: 0;
+            }
+
+            .verify-button {
+                align-self: auto;
+                width: auto;
+            }
+
+            /* Footer: Stack elements vertically */
+            .main-footer {
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                padding-top: 15px;
+                padding-bottom: 15px;
+            }
+
+            /* Hide the <br> tag for better mobile layout */
+            .main-footer br {
+                display: none;
+            }
+
+            /* Remove gap between rows on mobile to reduce clutter */
+            .detail-row {
+                gap: 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
-<img src="jpg.jpg" alt="qrcode" id="qrcode" />
-<p id="date1">December-31-2026</p>
-<p id="companyname">GEO-OBSCON GLOBAL SERVICES LTD</p>
-<p id="reg-no"><strong>1188822</strong></p>
-<p id="def">Nigeria Owned / Private Company Limited by Shares</p>
-<p class="col" id="col1">Compliant</p>
-<p class="col" id="col2">3 personnel registered.<br/> Compliant</p>
-<p class="col" id="col3">Compliant</p>
-<p class="col" id="col4">Compliant</p>
-<p id="categories">
-  NO BUSINESS CATEGORY REGISTERED FOR ENTITY. Please select one or more Business Category and regenerate this report. <span>|</span>
-</p>
-<p id="date2">April-24-2026</p>
-<p id="verify"><a href="https://federalcontractors.pp.gov.ng/#/search/detail/1a41a9f4-c381-44bf-9cab-3ed7662be97d" >View in Public Search</a></p>
-<p id="ref">0000-0019-0989</p>
+
+    <header class="main-header">
+        <div class="logo-container">
+            <div class="logo-circle">
+                <img src="icon.png" alt="Company Logo" class="logo-img">
+            </div>
+            <span class="company-name">Certificate Verification</span>
+        </div>
+    </header>
+
+    <div class="content-header">
+        <div class="red-placeholder">
+            Employers and contractors can now verify their certificates online using this facility. Just enter your
+            certificate number and the certificate details will be verified.
+            <p style="margin-top: 0px; color: red;">This is only for current year certificates</p>
+        </div>
+        <h1 class="main-title">NSITF Certificate Verification</h1>
+    </div>
+
+    <main class="content-container">
+        <section class="user-details-card">
+            <div class="detail-row">
+                <span class="detail-label">Employer Name</span>
+                <span class="detail-value">GEO-OBSCON GLOBAL SERVICES LIMITED</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">RC Number</span>
+                <span class="detail-value">1188822</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">ECS Number</span>
+                <span class="detail-value">1601106321</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Managing Branch:</span>
+                <span class="detail-value">Wuze Zone 2</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Issue Date</span>
+                <span class="detail-value">23 April, 2026</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Validity</span>
+                <span style="color: red;" class="detail-value">31 December, 2026</span>
+            </div>
+        </section>
+
+        <section class="search-card">
+            <h2 class="card-title">Certificate Search</h2>
+            <p>Enter a new certificate number to verify details instantly.</p>
+            <div class="input-group">
+                <input type="text" placeholder="Enter certificate number" class="certificate-input">
+                <a href="https://www.pencom.gov.ng/pra2014/"> <button class="verify-button">Verify Certificate</button> </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; Copyright 2019 All Rights Reserved <br>
+            <span class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <span>|</span>
+                <a href="#">Terms of Use</a>
+            </span>
+        </p>
+    </footer>
 
 </body>
-
 
 </html>
